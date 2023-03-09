@@ -2,5 +2,6 @@
 Kevin Zhang
 ***
 
-Startup idea for website that compiles all the cheapest options for a tech item 
-from the most popular tech websites, similar to how Expedia functions for Airlines.
+Current Progress:
+Planning and working with team to design website and features
+Talking to potential funding sources
