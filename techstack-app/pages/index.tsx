@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { Main } from 'next/document'
 import Link from 'next/link'
+import Loader from '@/components/Loader'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -42,7 +43,7 @@ export default function Home() {
                 pathname: '/[searchitem]',
                 query: { searchitem: 'laptops' }
               }}>
-            Items
+            Laptops
           </Link>
         </div>
       </main>
