@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Top navbar
 export default function Navbar() {
-  const user = null;
-  const username = null;
+  const user = true;
+  const username = true;
 
   return (
     <nav className="navbar">
@@ -24,7 +25,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link href={`/${username}`}>
-                <img src={user?.photoURL} />
+                <Image src={user?.photoURL} alt="image"/>
               </Link>
             </li>
           </>

@@ -5,6 +5,7 @@ import styles from '@/styles/Home.module.css'
 import { Main } from 'next/document'
 import Link from 'next/link'
 import Loader from '@/components/Loader'
+import { toast } from 'react-hot-toast'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,7 +30,7 @@ export default function Home() {
           href="/TechStack.ico" 
         />
       </Head>
-
+      
       <main>
         <div className={styles.container}>
           <h1 className={styles.title}>TechStack</h1>
@@ -46,8 +47,12 @@ export default function Home() {
             Laptops
           </Link>
         </div>
+        <div>
+          <button onClick={() => toast.success('hello toast!')}>
+            Click Me
+          </button>  
+        </div>
       </main>
-  
     </>
   )
 }
