@@ -13,10 +13,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>TechStack - Compare. Buy. Save.</title>
+        <title>TechStack - Save time. Save money.</title>
         <meta
           name="description"
-          content="Compare and buy the latest tech products from the top brands. Save money and time with TechStack."
+          content="Compare and buy the latest tech products from the top brands. Save time, save money."
         />
         <meta 
           name="author" 
