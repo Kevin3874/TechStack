@@ -2,6 +2,7 @@ import { auth, googleAuthProvider } from '../lib/firebase';
 import Head from 'next/head';
 import { useContext } from 'react';
 import { UserContext } from '../lib/context';
+import { signInWithPopup, signInAnonymously, signOut } from 'firebase/auth';
 
 
 export default function Enter(props: any) {
@@ -47,7 +48,7 @@ export default function Enter(props: any) {
 function SignInButton() {
     const signInWithGoogle = async () => {
         try {
-            await auth.signInWithPopup(googleAuthProvider);
+            await signInWithPopup(auth, googleAuthProvider);
         } catch (error) {
             console.log(error);
         }
@@ -65,5 +66,9 @@ function SignOutButton() {
 }
   
 function UsernameForm() {
-    return null;
+    
+
+    return (
+
+    );
 }
