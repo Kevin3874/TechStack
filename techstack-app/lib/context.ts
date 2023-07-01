@@ -1,3 +1,9 @@
 import { createContext } from 'react';
+import { User } from 'firebase/auth';
 
-export const UserContext = createContext({ user: null, username: null });
+interface IUserContext {
+  user: User | null;
+  username: string | null;
+}
+
+export const UserContext = createContext<IUserContext>({ user: null, username: null });
