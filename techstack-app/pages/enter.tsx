@@ -35,9 +35,9 @@ export default function Enter(props: any) {
 
             <main>
                 {user ? 
-                    !username ? <UsernameForm /> : <SignOutButton /> 
-                    : 
-                    <SignInButton />
+                    !username ? <SignInButton /> : <SignOutButton /> 
+                    : <UsernameForm />
+                    
                 }
             </main>
         </>
