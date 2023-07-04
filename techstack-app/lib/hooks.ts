@@ -25,5 +25,6 @@ export function useUserData() {
     return unsubscribe;
   }, [user]);
 
-  return { user, username };
+  // Explicitly return null instead of undefined
+  return { user: user ?? null, username };
 }
