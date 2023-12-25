@@ -1,9 +1,9 @@
 # Node.js dependencies
 /node_modules
-.techstack-backend/node_modules/
-.techstack-app/node_modules/
 .pnp.js
 .pnpm-debug.log*
+*/node_modules/
+*/package-lock.json
 
 # Testing
 /coverage
