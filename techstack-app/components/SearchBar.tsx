@@ -9,8 +9,6 @@ export default function SearchBar() {
   };
 
   return (
-    <>
-      <h1>Search</h1>
       <form onSubmit={handleSearch}>
         <input
           type="text"
@@ -20,6 +18,5 @@ export default function SearchBar() {
         />
         <button type="submit">Search</button>
       </form>
-    </>
   );
 }

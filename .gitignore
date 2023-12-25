@@ -7,19 +7,19 @@
 
 # Testing
 /coverage
-.techstack-backend/coverage/
-.techstack-app/coverage/
+*/coverage/
+*/coverage/
 
 # Next.js specific
-.techstack-app/.next/
-.techstack-app/out/
-.techstack-app/next-env.d.ts
-.techstack-app/*.tsbuildinfo
+*/.next/
+*/out/
+*/next-env.d.ts
+*/*.tsbuildinfo
 
 # Build outputs
 /build
-.techstack-backend/build/
-.techstack-app/build/
+*/build/
+*/build/
 
 # Misc
 .DS_Store
