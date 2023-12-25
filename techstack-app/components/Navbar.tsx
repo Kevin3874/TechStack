@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useContext } from 'react';
 import { UserContext } from '../lib/context';
+import SearchBar from '../components/SearchBar';
 
 // Top navbar
 export default function Navbar() {
@@ -16,6 +17,9 @@ export default function Navbar() {
             <Link href="/">
               <Image src={'/TechStack.png'} alt="logo" width={250} height={250}/>
             </Link>
+          </li>
+          <li>
+            <SearchBar />
           </li>
 
           {/* user is signed-in and has username */}

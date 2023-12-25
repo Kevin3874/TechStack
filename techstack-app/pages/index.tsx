@@ -1,12 +1,12 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-import Link from 'next/link'
-import Loader from '@/components/Loader'
-import { toast } from 'react-hot-toast'
+import Head from "next/head";
+import Image from "next/image";
+import { Inter } from "next/font/google";
+import styles from "@/styles/Home.module.css";
+import Link from "next/link";
+import Loader from "@/components/Loader";
+import { toast } from "react-hot-toast";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
@@ -17,19 +17,10 @@ export default function Home() {
           name="description"
           content="Compare and buy the latest tech products from the top brands. Save time, save money."
         />
-        <meta 
-          name="author" 
-          content="Kevin Zhang" 
-        />
-        <meta 
-          name="viewport" 
-          content="width=device-width, initial-scale=1.0" />
-        <link 
-          rel="icon" 
-          href="/TechStack.ico" 
-        />
+        <meta name="author" content="Kevin Zhang" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/TechStack.ico" />
       </Head>
-      
       <main>
         <div className={styles.container}>
           <h1 className={styles.title}>TechStack</h1>
@@ -39,19 +30,21 @@ export default function Home() {
           </p>
         </div>
         <div>
-          <Link href={{
-                pathname: '/[searchitem]',
-                query: { searchitem: 'laptops' }
-              }}>
+          <Link
+            href={{
+              pathname: "/[searchitem]",
+              query: { searchitem: "laptops" },
+            }}
+          >
             Laptops
           </Link>
         </div>
         <div>
-          <button onClick={() => toast.success('hello toast!')}>
+          <button onClick={() => toast.success("hello toast!")}>
             Click Me
-          </button>  
+          </button>
         </div>
       </main>
     </>
-  )
+  );
 }
