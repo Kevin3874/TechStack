@@ -1,0 +1,40 @@
+# Node.js dependencies
+/node_modules
+.techstack-backend/node_modules/
+.techstack-app/node_modules/
+.pnp.js
+.pnpm-debug.log*
+
+# Testing
+/coverage
+.techstack-backend/coverage/
+.techstack-app/coverage/
+
+# Next.js specific
+.techstack-app/.next/
+.techstack-app/out/
+.techstack-app/next-env.d.ts
+.techstack-app/*.tsbuildinfo
+
+# Build outputs
+/build
+.techstack-backend/build/
+.techstack-app/build/
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env*.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
