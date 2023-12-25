@@ -2,5 +2,4 @@
 Kevin Zhang
 ***
 
-HTML, CSS Tailwind, React with Next.js 
-and Typescript, and Firebase.
+Next.js, React + Typescript, Node + Express, Firebase
