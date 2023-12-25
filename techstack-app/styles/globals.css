@@ -79,12 +79,12 @@ code {
 }
 
 .navbar ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   list-style-type: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   height: 100%;
 }
 
@@ -96,8 +96,14 @@ code {
 }
 
 .navbar li {
-  border-radius: 50%;
-  
+  flex-grow: 0;
+  margin: 0 10px;
+}
+
+.navbar li:nth-child(2) {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center; 
 }
 
 /* Buttons */
@@ -226,6 +232,7 @@ input[type="file"] {
     padding: 5px;
     margin: 5px 0;
 }
+
 /* Utilities */
 
 .push-left {
@@ -277,4 +284,43 @@ input[type="file"] {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Search Bar */
+
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  width: 75%;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.search-input {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: none;
+  outline: none;
+}
+
+.search-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
 }
