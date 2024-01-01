@@ -33,14 +33,14 @@ const scrapeAmazon = async (URL) => {
         const productName = productNameEl ? productNameEl.innerText.trim() : null;
         const productPrice = productPriceEl ? productPriceEl.innerText.trim() : null;
         const productLink = productLinkEl ? 'https://www.amazon.com' + productLinkEl.getAttribute('href') : null;
-        const productImageUrl = productImageEl ? productImageEl.src : null;
+        const productImage = productImageEl ? productImageEl.src : null;
 
         if (productName && productPrice && productLink) {
           uniqueProducts.set(asin, { 
             productName, 
             productPrice, 
             productLink,
-            productImageUrl 
+            productImage 
           });
         }
       });
@@ -58,5 +58,6 @@ const scrapeAmazon = async (URL) => {
   }
 };
 
+// TODO: replace with export, have custom search
 scrapeAmazon("https://www.amazon.com/Graphics-Cards-Computer-Add-Ons-Computers/b/ref=dp_bc_4?ie=UTF8&node=284822");
 //module.exports = scrapeAmazon;

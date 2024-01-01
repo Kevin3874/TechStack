@@ -1,5 +1,6 @@
 function GPURetailers() {
   // Add more GPU retailers
+  // Target, Walmart, ?
   return [
     "https://www.amazon.com/Graphics-Cards-Computer-Add-Ons-Computers/b/ref=dp_bc_4?ie=UTF8&node=284822",
     "https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002",
