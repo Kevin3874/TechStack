@@ -7,6 +7,7 @@ app.use(express.json());
 exports.scrapeGPU = async (req, res) => { 
   try {
     let data = await scrapeGPU();
+    res.status(200).send(data);
   } catch (error) {
     console.log(error);
     res.status(400).send('Error while scraping GPU data')

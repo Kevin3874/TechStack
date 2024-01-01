@@ -9,7 +9,7 @@ const scrapeAmazon = async (URL) => {
     });
 
     const page = await browser.newPage();
-    page.setDefaultNavigationTimeout(2 * 60 * 1000);
+    page.setDefaultNavigationTimeout(30 * 1000);
     await page.goto(URL);
 
     const products = await page.evaluate(() => {
@@ -52,8 +52,9 @@ const scrapeAmazon = async (URL) => {
       return data;
     });
 
-    console.log(products);
-    console.log("Size:", products.length);
+    //console.log(products);
+    //console.log("Size:", products.length);
+    return products;
     
   } catch (e) {
     console.log('Scraping Amazon failed: ', e);
@@ -63,5 +64,5 @@ const scrapeAmazon = async (URL) => {
 };
 
 // TODO: replace with export, have custom search
-scrapeAmazon("https://www.amazon.com/Graphics-Cards-Computer-Add-Ons-Computers/b/ref=dp_bc_4?ie=UTF8&node=284822");
-//module.exports = scrapeAmazon;
+//scrapeAmazon("https://www.amazon.com/Graphics-Cards-Computer-Add-Ons-Computers/b/ref=dp_bc_4?ie=UTF8&node=284822");
+module.exports = scrapeAmazon;

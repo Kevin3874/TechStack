@@ -9,7 +9,7 @@ const scrapeBestBuy = async (URL) => {
     });
 
     const page = await browser.newPage();
-    page.setDefaultNavigationTimeout(2 * 60 * 1000);
+    page.setDefaultNavigationTimeout(30 * 1000);
     await page.goto(URL);
 
     const products = await page.evaluate(() => {
@@ -50,8 +50,9 @@ const scrapeBestBuy = async (URL) => {
       return data;
     });
 
-    console.log(products);
-    console.log("Size:", products.length);
+    //console.log(products);
+    //console.log("Size:", products.length);
+    return products;
     
   } catch (e) {
     console.log('Scraping Best Buy failed: ', e);
@@ -60,6 +61,6 @@ const scrapeBestBuy = async (URL) => {
   }
 };
 
-scrapeBestBuy("https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002");
+//scrapeBestBuy("https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002");
 
-//module.exports = scrapeBestBuy;
+module.exports = scrapeBestBuy;

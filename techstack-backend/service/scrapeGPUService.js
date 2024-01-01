@@ -1,7 +1,6 @@
-const scrapeAmazon = require("./scrapeAmazon");
-const scrapeBestbuy = require("./scrapeBestBuy");
-const scrapeMicrocenter = require("./scrapeMicrocenter");
-const scrapeNewegg = require("./scrapeNewegg");
+const scrapeAmazon = require("./scrapeAmazonGPU");
+const scrapeBestbuy = require("./scrapeBestBuyGPU");
+const scrapeNewegg = require("./scrapeNeweggGPU");
 const GPURetailers = require("../models/GPURetailers");
 
 async function scrapeGPU() {
@@ -9,9 +8,12 @@ async function scrapeGPU() {
     let retailers = GPURetailers();
     const amazonData = await scrapeAmazon(retailers[0]);
     const bestbuyData = await scrapeBestbuy(retailers[1]);
-    const microcenterData = await scrapeMicrocenter(retailers[2]);
-    const neweggData = await scrapeNewegg(retailers[3]);
-    return { amazonData, bestbuyData, microcenterData, neweggData }
+    const neweggData = await scrapeNewegg(retailers[2]);
+    return { 
+      amazonDataGPU: amazonData, 
+      bestbuyDataGPU: bestbuyData, 
+      neweggDataGPU: neweggData 
+    }
   } catch (error) {
     throw error;
   }
