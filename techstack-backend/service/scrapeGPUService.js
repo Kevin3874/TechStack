@@ -8,10 +8,11 @@ async function scrapeGPU() {
   try {
     let retailers = GPURetailers();
     const amazonData = await scrapeAmazon(retailers[0]);
-    const bestbuyData = await scrapeBestbuy(retailers[1]);
-    const microcenterData = await scrapeMicrocenter(retailers[2]);
-    const neweggData = await scrapeNewegg(retailers[3]);
-    return { amazonData, bestbuyData, microcenterData, neweggData }
+    //const bestbuyData = await scrapeBestbuy(retailers[1]);
+    //const microcenterData = await scrapeMicrocenter(retailers[2]);
+    //const neweggData = await scrapeNewegg(retailers[3]);
+    //return { amazonData, bestbuyData, microcenterData, neweggData }
+    return {amazonData}
   } catch (error) {
     throw error;
   }

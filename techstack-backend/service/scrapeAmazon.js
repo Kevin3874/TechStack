@@ -1,12 +1,62 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
+require('dotenv').config({ path: './.env.local' });
 
 const scrapeAmazon = async (URL) => {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.goto(URL);
-  const content = await page.content();
-  await browser.close();
-  return content
+  let browser;
+  try {
+    browser = await puppeteer.connect({
+      browserWSEndpoint: process.env.AUTH_ENDPOINT
+    });
+
+    const page = await browser.newPage();
+    page.setDefaultNavigationTimeout(2 * 60 * 1000);
+    await page.goto(URL);
+
+    const products = await page.evaluate(() => {
+      const uniqueProducts = new Map();
+
+      const productContainers = document.querySelectorAll('div[data-asin]');
+      productContainers.forEach(container => {
+        const asin = container.getAttribute('data-asin');
+
+        // Check for asin
+        if (!asin || uniqueProducts.has(asin)) {
+          return
+        };
+
+        // Selectors, add or adjust as needed
+        const productNameEl = container.querySelector('h2 a.a-link-normal');
+        const productPriceEl = container.querySelector('.a-price .a-offscreen');
+        const productLinkEl = container.querySelector('h2 a.a-link-normal');
+        const productImageEl = container.querySelector('.s-image');
+
+        const productName = productNameEl ? productNameEl.innerText.trim() : null;
+        const productPrice = productPriceEl ? productPriceEl.innerText.trim() : null;
+        const productLink = productLinkEl ? 'https://www.amazon.com' + productLinkEl.getAttribute('href') : null;
+        const productImageUrl = productImageEl ? productImageEl.src : null;
+
+        if (productName && productPrice && productLink) {
+          uniqueProducts.set(asin, { 
+            productName, 
+            productPrice, 
+            productLink,
+            productImageUrl 
+          });
+        }
+      });
+      // Get rid of duplicates
+      return Array.from(uniqueProducts.values());
+    });
+
+    console.log(products);
+    console.log("Size:", products.length);
+    
+  } catch (e) {
+    console.log('Scraping Amazon failed: ', e);
+  } finally {
+    await browser?.close();
+  }
 };
 
-module.exports = scrapeAmazon;
+scrapeAmazon("https://www.amazon.com/Graphics-Cards-Computer-Add-Ons-Computers/b/ref=dp_bc_4?ie=UTF8&node=284822");
+//module.exports = scrapeAmazon;
