@@ -30,6 +30,7 @@ const scrapeAmazon = async (URL) => {
         const productLinkEl = container.querySelector('h2 a.a-link-normal');
         const productImageEl = container.querySelector('.s-image');
 
+        // Extract Data
         const productName = productNameEl ? productNameEl.innerText.trim() : null;
         const productPrice = productPriceEl ? productPriceEl.innerText.trim() : null;
         const productLink = productLinkEl ? 'https://www.amazon.com' + productLinkEl.getAttribute('href') : null;
@@ -44,8 +45,11 @@ const scrapeAmazon = async (URL) => {
           });
         }
       });
-      // Get rid of duplicates
-      return Array.from(uniqueProducts.values());
+
+      // Conver to array
+      let data = Array.from(uniqueProducts.values());
+      data.push("Amazon");
+      return data;
     });
 
     console.log(products);

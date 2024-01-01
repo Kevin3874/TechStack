@@ -26,8 +26,13 @@ const scrapeBestBuy = async (URL) => {
         }
 
         const productName = productLinkEl?.innerText.trim();
-        const productPrice = container.querySelector('.sku-list-item-price .priceView-customer-price span')?.innerText.trim();
-        const productImage = container.querySelector('.image-link img.product-image')?.src;
+        // Selectors
+        const productPriceEl = container.querySelector('.sku-list-item-price .priceView-customer-price span');
+        const productImageEl = container.querySelector('.image-link img.product-image');
+
+        // Extract Data
+        const productPrice = productPriceEl ? productPriceEl.innerText.trim() : null;
+        const productImage = productImageEl ? productImageEl.src : null;
 
         if (productName && productPrice && productLink) {
           uniqueProducts.set(productLink, { 
@@ -40,7 +45,9 @@ const scrapeBestBuy = async (URL) => {
       });
 
       // Convert Map to Array
-      return Array.from(uniqueProducts.values());
+      let data = Array.from(uniqueProducts.values());
+      data.push("BestBuy");
+      return data;
     });
 
     console.log(products);
