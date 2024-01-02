@@ -24,25 +24,15 @@ export default function Home() {
       <main>
         <div className={styles.container}>
           <h1 className={styles.title}>TechStack</h1>
-          <p className={styles.description}>
+          <h2 className={styles.description}>
             Compare and buy the latest tech products from the top brands. Save
             money and time with TechStack.
-          </p>
-        </div>
-        <div>
-          <Link
-            href={{
-              pathname: "/[searchitem]",
-              query: { searchitem: "laptops" },
-            }}
-          >
-            Laptops
-          </Link>
-        </div>
-        <div>
-          <button onClick={() => toast.success("hello toast!")}>
-            Click Me
-          </button>
+          </h2>
+          <h2 className={styles.description}>
+            Try searching an item! <br></br>
+            Currently supports: BestBuy, Amazon, Newegg. <br></br>
+            Much more coming soon {'=>'} Login, Saving, Sorting, etc.
+          </h2>
         </div>
       </main>
     </>

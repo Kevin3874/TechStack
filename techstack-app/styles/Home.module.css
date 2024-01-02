@@ -11,11 +11,15 @@
   display: inherit;
   justify-content: inherit;
   align-items: inherit;
-  font-size: 0.85rem;
+  font-size: 1.2rem;
   max-width: var(--max-width);
   width: 100%;
   z-index: 2;
   font-family: var(--font-mono);
+}
+
+.title {
+  font-size: 3rem;
 }
 
 .description a {

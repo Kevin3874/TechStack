@@ -12,34 +12,39 @@ export default function Enter(props: any) {
     // 1. user signed out <SignInButton />
     // 2. user signed in, but missing username <UsernameForm />
     // 3. user signed in, has username <SignOutButton />
+    // return (
+    //     <>
+    //         <Head>
+    //             <title>TechStack - Sign In</title>
+    //             <meta
+    //             name="description"
+    //             content="Compare and buy the latest tech products from the top brands. Save time, save money."
+    //             />
+    //             <meta 
+    //             name="author" 
+    //             content="Kevin Zhang" 
+    //             />
+    //             <meta 
+    //             name="viewport" 
+    //             content="width=device-width, initial-scale=1.0" />
+    //             <link 
+    //             rel="icon" 
+    //             href="/TechStack.ico" 
+    //             />
+    //         </Head>
+
+    //         <main>
+    //             {user ? 
+    //                 !username ? <SignInButton /> : <SignOutButton /> 
+    //                 : <UsernameForm />
+                    
+    //             }
+    //         </main>
+    //     </>
+    // )
     return (
         <>
-            <Head>
-                <title>TechStack - Sign In</title>
-                <meta
-                name="description"
-                content="Compare and buy the latest tech products from the top brands. Save time, save money."
-                />
-                <meta 
-                name="author" 
-                content="Kevin Zhang" 
-                />
-                <meta 
-                name="viewport" 
-                content="width=device-width, initial-scale=1.0" />
-                <link 
-                rel="icon" 
-                href="/TechStack.ico" 
-                />
-            </Head>
-
-            <main>
-                {user ? 
-                    !username ? <SignInButton /> : <SignOutButton /> 
-                    : <UsernameForm />
-                    
-                }
-            </main>
+            <h1>Coming Soon!</h1>
         </>
     )
 }

@@ -1,22 +1,22 @@
 //const puppeteer = require('puppeteer-core')
-const puppeteer = require('puppeteer-extra');
-const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-require('dotenv').config({ path: './.env.local' });
+// const puppeteer = require('puppeteer-extra');
+// const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+// require('dotenv').config({ path: './.env.local' });
 
-puppeteer.use(StealthPlugin());
+// puppeteer.use(StealthPlugin());
 
-const scrapeBestBuy = async (URL) => {
-  let browser;
+const scrapeBestBuy = async (page) => {
+  //let browser;
   try {
     // browser = await puppeteer.connect({
     //   browserWSEndpoint: process.env.AUTH_ENDPOINT
     // });
 
-    browser = await puppeteer.launch({ headless: "new" });
+    // browser = await puppeteer.launch({ headless: "new" });
 
-    const page = await browser.newPage();
-    page.setDefaultNavigationTimeout(2 * 60 * 1000);
-    await page.goto(URL, {waitUntil: 'networkidle2'});
+    // const page = await browser.newPage();
+    // page.setDefaultNavigationTimeout(2 * 60 * 1000);
+    // await page.goto(URL, {waitUntil: 'networkidle2'});
 
     const products = await page.evaluate(() => {
       const uniqueProducts = new Map();
@@ -67,12 +67,7 @@ const scrapeBestBuy = async (URL) => {
   } catch (e) {
     console.log('Scraping BestBuy failed: ', e);
     throw('Scraping BestBuy failed');
-  } finally {
-    await browser?.close();
   }
 };
-
-// Testing
-scrapeBestBuy("https://www.bestbuy.com/site/searchpage.jsp?st=Graphics+Cards");
 
 module.exports = scrapeBestBuy;

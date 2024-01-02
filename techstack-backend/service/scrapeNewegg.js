@@ -1,22 +1,22 @@
 //const puppeteer = require('puppeteer-core')
-const puppeteer = require('puppeteer-extra');
-const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-require('dotenv').config({ path: './.env.local' });
+// const puppeteer = require('puppeteer-extra');
+// const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+// require('dotenv').config({ path: './.env.local' });
 
-puppeteer.use(StealthPlugin());
+// puppeteer.use(StealthPlugin());
 
-const scrapeNewegg = async (URL) => {
-  let browser;
+const scrapeNewegg = async (page) => {
+  //let browser;
   try {
     // browser = await puppeteer.connect({
     //   browserWSEndpoint: process.env.AUTH_ENDPOINT
     // });
 
-    browser = await puppeteer.launch({ headless: "new" });
+    // browser = await puppeteer.launch({ headless: "new" });
 
-    const page = await browser.newPage();
-    page.setDefaultNavigationTimeout(2 * 60 * 1000);
-    await page.goto(URL, {waitUntil: 'networkidle2'});
+    // const page = await browser.newPage();
+    // page.setDefaultNavigationTimeout(2 * 60 * 1000);
+    // await page.goto(URL, {waitUntil: 'networkidle2'});
 
     const products = await page.evaluate(() => {
       const uniqueProducts = new Map();
@@ -72,12 +72,7 @@ const scrapeNewegg = async (URL) => {
   } catch (e) {
     console.log('Scraping Newegg failed: ', e);
     throw('Scraping Newegg failed');
-  } finally {
-    await browser?.close();
-  }
+  } 
 };
-
-// Testing
-scrapeNewegg("https://www.newegg.com/p/pl?d=graphics+card");
 
 module.exports = scrapeNewegg;
