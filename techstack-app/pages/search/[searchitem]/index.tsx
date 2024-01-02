@@ -11,8 +11,8 @@ export default function SearchResults() {
   useEffect(() => {
     if (searchitem) {
       const query = (searchitem as string).split(" ").join("+");
-
-      fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/scrape?q=${query}`)
+      console.log(process.env.NEXT_PUBLIC_API_ENDPOINT);
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/scrape?q=${query}`)
         .then((response) => response.json())
         .then((data) => {
           setResults(data);
@@ -47,7 +47,7 @@ export default function SearchResults() {
       <h1>Search Results for: {searchitem}</h1>
       <div className={styles.resultsContainer}>
         {isLoading ? (
-          <div>Loading...</div>
+          <div>Loading... May take a second!</div>
         ) : (
           Object.entries(results || {}).map(([seller, sellerData]) => {
             return (
