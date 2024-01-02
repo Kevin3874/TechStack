@@ -58,6 +58,10 @@ const scrapeNewegg = async (URL) => {
       // Convert data to array
       let data = Array.from(uniqueProducts.values());
       data.push("Newegg");
+      // Check for empty array, return []
+      if (data.length === 1) {
+        data.push("empty");
+      }
       return data;
     });
 
@@ -67,6 +71,7 @@ const scrapeNewegg = async (URL) => {
     
   } catch (e) {
     console.log('Scraping Newegg failed: ', e);
+    throw('Scraping Newegg failed');
   } finally {
     await browser?.close();
   }

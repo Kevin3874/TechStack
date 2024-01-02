@@ -53,6 +53,10 @@ const scrapeBestBuy = async (URL) => {
       // Convert Map to Array
       let data = Array.from(uniqueProducts.values());
       data.push("BestBuy");
+      // Check for empty array, return []
+      if (data.length === 1) {
+        data.push("empty");
+      }
       return data;
     });
 
@@ -61,7 +65,8 @@ const scrapeBestBuy = async (URL) => {
     return products;
     
   } catch (e) {
-    console.log('Scraping Best Buy failed: ', e);
+    console.log('Scraping BestBuy failed: ', e);
+    throw('Scraping BestBuy failed');
   } finally {
     await browser?.close();
   }

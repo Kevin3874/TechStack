@@ -55,6 +55,10 @@ const scrapeAmazon = async (URL) => {
       // Conver to array
       let data = Array.from(uniqueProducts.values());
       data.push("Amazon");
+      // Check for empty array, return []
+      if (data.length === 1) {
+        data.push("empty");
+      }
       return data;
     });
 
@@ -64,6 +68,7 @@ const scrapeAmazon = async (URL) => {
     
   } catch (e) {
     console.log('Scraping Amazon failed: ', e);
+    throw('Scraping Amazon failed');
   } finally {
     await browser?.close();
   }
