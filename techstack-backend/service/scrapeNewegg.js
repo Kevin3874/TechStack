@@ -61,9 +61,8 @@ const scrapeNewegg = async (URL) => {
       return data;
     });
 
-    console.log(products);
-    console.log("Size:", products.length);
-
+    //console.log(products);
+    //console.log("Size:", products.length);
     return products;
     
   } catch (e) {
@@ -73,6 +72,7 @@ const scrapeNewegg = async (URL) => {
   }
 };
 
+// Testing
 scrapeNewegg("https://www.newegg.com/p/pl?d=graphics+card");
 
 module.exports = scrapeNewegg;

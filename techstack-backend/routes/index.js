@@ -1,7 +1,7 @@
 const express = require('express');
-const scrapeGPURouter = require('./scrapeGPU.js');
+const scrapeRouter = require('./scrape.js');
 const router = express.Router();
 
-router.use('/scrapeGPU', scrapeGPURouter); 
+router.use('/scrape', scrapeRouter); 
 
 module.exports = router;

@@ -5,13 +5,13 @@ require('dotenv').config({ path: './.env.local' });
 
 puppeteer.use(StealthPlugin());
 
-const scrapeBestBuy = async (URL) => {
+const scrapeAmazon = async (URL) => {
   let browser;
   try {
     // browser = await puppeteer.connect({
     //   browserWSEndpoint: process.env.AUTH_ENDPOINT
     // });
-
+    
     browser = await puppeteer.launch({ headless: "new" });
 
     const page = await browser.newPage();
@@ -21,38 +21,40 @@ const scrapeBestBuy = async (URL) => {
     const products = await page.evaluate(() => {
       const uniqueProducts = new Map();
 
-      const productContainers = document.querySelectorAll('ol.sku-item-list > li.sku-item');
+      const productContainers = document.querySelectorAll('div[data-asin]');
       productContainers.forEach(container => {
-        const productLinkEl = container.querySelector('h4.sku-title > a');
-        const productLink = 'https://www.bestbuy.com' + productLinkEl?.getAttribute('href');
-        
-        // Check for unique product link
-        if (!productLink || uniqueProducts.has(productLink)) {
-          return;
-        }
+        const asin = container.getAttribute('data-asin');
 
-        const productName = productLinkEl?.innerText.trim();
-        // Selectors
-        const productPriceEl = container.querySelector('.sku-list-item-price .priceView-customer-price span');
-        const productImageEl = container.querySelector('.image-link img.product-image');
+        // Check for asin
+        if (!asin || uniqueProducts.has(asin)) {
+          return
+        };
+
+        // Selectors, add or adjust as needed
+        const productNameEl = container.querySelector('h2 a.a-link-normal');
+        const productPriceEl = container.querySelector('.a-price .a-offscreen');
+        const productLinkEl = container.querySelector('h2 a.a-link-normal');
+        const productImageEl = container.querySelector('.s-image');
 
         // Extract Data
+        const productName = productNameEl ? productNameEl.innerText.trim() : null;
         const productPrice = productPriceEl ? productPriceEl.innerText.trim() : null;
+        const productLink = productLinkEl ? 'https://www.amazon.com' + productLinkEl.getAttribute('href') : null;
         const productImage = productImageEl ? productImageEl.src : null;
 
         if (productName && productPrice && productLink) {
-          uniqueProducts.set(productLink, { 
+          uniqueProducts.set(asin, { 
             productName, 
             productPrice, 
-            productLink, 
+            productLink,
             productImage 
           });
         }
       });
 
-      // Convert Map to Array
+      // Conver to array
       let data = Array.from(uniqueProducts.values());
-      data.push("BestBuy");
+      data.push("Amazon");
       return data;
     });
 
@@ -61,12 +63,13 @@ const scrapeBestBuy = async (URL) => {
     return products;
     
   } catch (e) {
-    console.log('Scraping Best Buy failed: ', e);
+    console.log('Scraping Amazon failed: ', e);
   } finally {
     await browser?.close();
   }
 };
 
-scrapeBestBuy("https://www.bestbuy.com/site/searchpage.jsp?st=Graphics+Cards");
+// Testing
+scrapeAmazon("https://www.amazon.com/s?k=Graphics+Cards");
 
-module.exports = scrapeBestBuy;
+module.exports = scrapeAmazon;
