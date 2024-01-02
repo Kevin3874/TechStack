@@ -1,16 +1,22 @@
-const puppeteer = require('puppeteer-core');
+//const puppeteer = require('puppeteer-core')
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 require('dotenv').config({ path: './.env.local' });
+
+puppeteer.use(StealthPlugin());
 
 const scrapeBestBuy = async (URL) => {
   let browser;
   try {
-    browser = await puppeteer.connect({
-      browserWSEndpoint: process.env.AUTH_ENDPOINT
-    });
+    // browser = await puppeteer.connect({
+    //   browserWSEndpoint: process.env.AUTH_ENDPOINT
+    // });
+
+    browser = await puppeteer.launch({ headless: "new" });
 
     const page = await browser.newPage();
-    page.setDefaultNavigationTimeout(30 * 1000);
-    await page.goto(URL);
+    page.setDefaultNavigationTimeout(2 * 60 * 1000);
+    await page.goto(URL, {waitUntil: 'networkidle2'});
 
     const products = await page.evaluate(() => {
       const uniqueProducts = new Map();
@@ -61,6 +67,6 @@ const scrapeBestBuy = async (URL) => {
   }
 };
 
-//scrapeBestBuy("https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002");
+scrapeBestBuy("https://www.bestbuy.com/site/searchpage.jsp?st=Graphics+Cards");
 
 module.exports = scrapeBestBuy;

@@ -1,16 +1,22 @@
-const puppeteer = require('puppeteer-core');
+//const puppeteer = require('puppeteer-core')
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 require('dotenv').config({ path: './.env.local' });
+
+puppeteer.use(StealthPlugin());
 
 const scrapeAmazon = async (URL) => {
   let browser;
   try {
-    browser = await puppeteer.connect({
-      browserWSEndpoint: process.env.AUTH_ENDPOINT
-    });
+    // browser = await puppeteer.connect({
+    //   browserWSEndpoint: process.env.AUTH_ENDPOINT
+    // });
+    
+    browser = await puppeteer.launch({ headless: "new" });
 
     const page = await browser.newPage();
-    page.setDefaultNavigationTimeout(30 * 1000);
-    await page.goto(URL);
+    page.setDefaultNavigationTimeout(2 * 60 * 1000);
+    await page.goto(URL, {waitUntil: 'networkidle2'});
 
     const products = await page.evaluate(() => {
       const uniqueProducts = new Map();
@@ -52,8 +58,8 @@ const scrapeAmazon = async (URL) => {
       return data;
     });
 
-    //console.log(products);
-    //console.log("Size:", products.length);
+    console.log(products);
+    console.log("Size:", products.length);
     return products;
     
   } catch (e) {
@@ -64,5 +70,6 @@ const scrapeAmazon = async (URL) => {
 };
 
 // TODO: replace with export, have custom search
-//scrapeAmazon("https://www.amazon.com/Graphics-Cards-Computer-Add-Ons-Computers/b/ref=dp_bc_4?ie=UTF8&node=284822");
+scrapeAmazon("https://www.amazon.com/s?k=Graphics+Cards");
+
 module.exports = scrapeAmazon;
