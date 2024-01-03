@@ -11,7 +11,6 @@ export default function SearchResults() {
   useEffect(() => {
     if (searchitem) {
       const query = (searchitem as string).split(" ").join("+");
-      console.log(process.env.NEXT_PUBLIC_API_ENDPOINT);
       fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/scrape?q=${query}`)
         .then((response) => response.json())
         .then((data) => {
