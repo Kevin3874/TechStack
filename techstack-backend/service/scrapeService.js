@@ -8,12 +8,25 @@ puppeteer.use(StealthPlugin());
 
 async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
   const page = await browser.newPage();
+  await page.setRequestInterception(true);
+  page.on('request', (req) => {
+    if (['image', 'stylesheet', 'font'].includes(req.resourceType())) {
+      req.abort();
+    } else {
+      req.continue();
+    }
+  });
+
+  const userAgent = `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/${Math.random().toFixed(3)} (KHTML, like Gecko) Chrome/${Math.floor(Math.random() * 10) + 80}.0.${Math.floor(Math.random() * 1000)}.0 Safari/${Math.random().toFixed(3)}`;
+  await page.setUserAgent(userAgent);
+
   page.setDefaultNavigationTimeout(2 * 60 * 1000);
   await page.goto(url, { waitUntil: 'networkidle2' });
   const data = await scrapeFunction(page);
   await page.close();
   return data;
 }
+
 
 async function scrapeGPU(query) {
   const queryWords = query.split(' ');
