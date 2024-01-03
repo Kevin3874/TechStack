@@ -18,7 +18,10 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
 async function scrapeGPU(query) {
   const queryWords = query.split(' ');
   let retailers = GetRetailers(queryWords);
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({
+    headless: "new",
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
   try {
     const [amazonData, bestbuyData, neweggData] = await Promise.all([
       scrapeWithPuppeteer(browser, scrapeAmazon, retailers[0]),
