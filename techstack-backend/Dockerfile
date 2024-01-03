@@ -1,5 +1,4 @@
-FROM ghcr.io/puppeteer/puppeteer:latest
-FROM node:latest
+FROM ghcr.io/puppeteer/puppeteer:21.6.1
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = true \
     PUPPETEER_EXECUTABLE_PATH = /usr/bin/google-chrome-stable
@@ -7,7 +6,7 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = true \
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm clean-install
 COPY . .
 
 CMD [ "node", "server.js" ]
