@@ -38,6 +38,7 @@ async function scrapeGPU(query) {
       "--no-sandbox",
       "--single-process",
       "--no-zygote",
+      "--disable-dev-shm-usage",
     ],
   });
   try {
