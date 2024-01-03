@@ -1,26 +1,28 @@
-# Use an official Node runtime as a parent image
-FROM node:20.9.0
+FROM node:latest
 
-# Set the working directory in the container
+# Install Puppeteer dependencies
+RUN apt-get update \
+    && apt-get install -y wget gnupg \
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update \
+    && apt-get install -y google-chrome-stable libxss1 \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get purge --auto-remove -y curl \
+    && rm -rf /src/*.deb
+
+# Set working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container
-COPY . /app
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Install your application's dependencies
+# Install app dependencies
 RUN npm install
 
-# Install Chrome for Puppeteer
-RUN apt-get update && apt-get install -y wget gnupg2
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-RUN apt-get update && apt-get install -y google-chrome-stable
+# Bundle app source
+COPY . .
 
-# Make port available to the world outside this container
 EXPOSE 4000
-
-# Define environment variable
-#ENV NAME World
-
-# Run the application when the container launches
 CMD ["npm", "start"]
