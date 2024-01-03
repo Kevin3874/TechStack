@@ -40,6 +40,10 @@ async function scrapeGPU(query) {
       "--no-zygote",
       "--disable-dev-shm-usage",
     ],
+    executablePath:
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
   });
   try {
     const [amazonData, bestbuyData, neweggData] = await Promise.all([
