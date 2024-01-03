@@ -9,6 +9,10 @@ app.use(cors());
 app.use(express.json());
 app.use("/api", apiRouter);
 
+app.get("/", (req, res) => {
+  res.send("Render Puppeteer server is up and running!");
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   console.log(`http://localhost:${PORT}`)

@@ -52,6 +52,6 @@ router.get("/test", (req, res) => {
     }
   };
   scrapeLogic(res);
-});
+}); 
 
 module.exports = router;
