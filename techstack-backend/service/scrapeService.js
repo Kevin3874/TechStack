@@ -60,7 +60,7 @@ async function scrapeGPU(query) {
     });
     const [amazonData, bestbuyData, neweggData] = await Promise.all([
       scrapeWithPuppeteer(browser, scrapeAmazon, retailers[0]),
-      //scrapeWithPuppeteer(browser, scrapeBestbuy, retailers[1]),
+      scrapeWithPuppeteer(browser, scrapeBestbuy, retailers[1]),
       scrapeWithPuppeteer(browser, scrapeNewegg, retailers[2])
     ])
 
@@ -72,9 +72,9 @@ async function scrapeGPU(query) {
     // ])
     
     return { 
-      amazonData: amazonData, 
-      //bestbuyData: bestbuyData, 
-      neweggDta: neweggData 
+      Amazon: amazonData, 
+      BestBuy: bestbuyData, 
+      Newegg: neweggData 
     } 
     
   } catch (error) {
