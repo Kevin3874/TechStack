@@ -42,14 +42,17 @@ async function scrapeGPU(query) {
       "--no-zygote",  
       "--disable-dev-shm-usage",
     ],
-      executablePath: "google-chrome-stable",
+    executablePath:
+        process.env.NODE_ENV === "production"
+          ? process.env.PUPPETEER_EXECUTABLE_PATH
+          : puppeteer.executablePath(),
     ignoreDefaultArgs: ['--disable-extensions'],
   });
   try {
     const [amazonData, bestbuyData, neweggData] = await Promise.all([
       scrapeWithPuppeteer(browser, scrapeAmazon, retailers[0]),
-      scrapeWithPuppeteer(browser, scrapeBestbuy, retailers[1]),
-      scrapeWithPuppeteer(browser, scrapeNewegg, retailers[2])
+      //scrapeWithPuppeteer(browser, scrapeBestbuy, retailers[1]),
+      //scrapeWithPuppeteer(browser, scrapeNewegg, retailers[2])
     ])
 
     // Testing
@@ -61,8 +64,8 @@ async function scrapeGPU(query) {
     
     return { 
       amazonData: amazonData, 
-      bestbuyData: bestbuyData, 
-      neweggDta: neweggData 
+      //bestbuyData: bestbuyData, 
+      //neweggDta: neweggData 
     } 
     
   } catch (error) {
