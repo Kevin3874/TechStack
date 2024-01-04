@@ -34,20 +34,26 @@ async function scrapeGPU(query) {
   const queryWords = query.split(' ');
   let retailers = GetRetailers(queryWords);
   const browser = await puppeteer.launch({
-    headless: "new",
+    //headless: "new",
+    // args: [
+    //   "--enable-gpu",
+    //   "--disable-setuid-sandbox",
+    //   "--no-sandbox",
+    //   "--single-process",
+    //   "--no-zygote",  
+    //   "--disable-dev-shm-usage",
+    // ],
     args: [
-      "--enable-gpu",
       "--disable-setuid-sandbox",
       "--no-sandbox",
       "--single-process",
-      "--no-zygote",  
-      "--disable-dev-shm-usage",
+      "--no-zygote",
     ],
     executablePath:
         process.env.NODE_ENV === "production"
           ? process.env.PUPPETEER_EXECUTABLE_PATH
           : puppeteer.executablePath(),
-    ignoreDefaultArgs: ['--disable-extensions'],
+    //ignoreDefaultArgs: ['--disable-extensions'],
   });
   try {
     const [amazonData, bestbuyData, neweggData] = await Promise.all([
