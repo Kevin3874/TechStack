@@ -19,6 +19,7 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
     'Accept-Language': 'en-US,en;q=0.9',
     'Accept-Encoding': 'gzip, deflate, br',
     'Connection': 'keep-alive',
+    'Accept*': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
   });
   await page.setRequestInterception(true);
   page.on('request', (req) => {
@@ -29,7 +30,7 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
     }
   });
 
-  //page.setDefaultNavigationTimeout(2 * 60 * 1000);
+  page.setDefaultNavigationTimeout(2 * 60 * 1000);
   await page.goto(url, { waitUntil: 'networkidle2' });
   console.log(`Scraping ${url}`);
   const data = await scrapeFunction(page);
@@ -42,11 +43,11 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
 async function scrapeGPU(query) {
   const queryWords = query.split(' ');
   let retailers = GetRetailers(queryWords);
-  const SBR_WS_ENDPOINT = 'wss://brd-customer-hl_ed6082f1-zone-scraping_browser:i31bl86vgz7v@brd.superproxy.io:9222';
   let browser;
   try {
     // browser = await puppeteer.connect({
-    //    browserWSEndpoint: SBR_WS_ENDPOINT,
+    //   browserWSEndpoint: process.env.SBR_WS_ENDPOINT,
+    // });
     browser = await puppeteer.launch({
       args: [
         "--disable-setuid-sandbox",
@@ -59,9 +60,9 @@ async function scrapeGPU(query) {
             ? process.env.PUPPETEER_EXECUTABLE_PATH
             : puppeteer.executablePath(),
     });
-    const [amazonData, bestbuyData, neweggData] = await Promise.all([
+    const [amazonData, neweggData] = await Promise.all([
       scrapeWithPuppeteer(browser, scrapeAmazon, retailers[0]),
-      scrapeWithPuppeteer(browser, scrapeBestbuy, retailers[1]),
+      //scrapeWithPuppeteer(browser, scrapeBestbuy, retailers[1]),
       scrapeWithPuppeteer(browser, scrapeNewegg, retailers[2])
     ])
 
@@ -71,10 +72,9 @@ async function scrapeGPU(query) {
     //   scrapeWithPuppeteer(browser, scrapeBestbuy, "https://www.bestbuy.com/site/searchpage.jsp?st=Graphics+Cards"),
     //   scrapeWithPuppeteer(browser, scrapeNewegg, "https://www.newegg.com/p/pl?d=graphics+card")
     // ])
-    
     return { 
       Amazon: amazonData, 
-      BestBuy: bestbuyData, 
+      //BestBuy: bestbuyData, 
       Newegg: neweggData 
     } 
     

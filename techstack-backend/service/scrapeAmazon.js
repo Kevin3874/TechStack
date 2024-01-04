@@ -20,7 +20,6 @@ const scrapeAmazon = async (page) => {
 
     const products = await page.evaluate(() => {
       const uniqueProducts = new Map();
-
       const productContainers = document.querySelectorAll('div[data-asin]');
       productContainers.forEach(container => {
         const asin = container.getAttribute('data-asin');
