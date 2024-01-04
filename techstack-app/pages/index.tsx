@@ -29,7 +29,7 @@ export default function Home() {
             money and time with TechStack.
           </h2>
           <h2 className={styles.description}>
-            Try searching an item! <br></br>
+            Try searching an item! Ex: "RTX 4070 Laptop" <br></br>
             Currently supports: BestBuy, Amazon, Newegg. <br></br>
             Much more coming soon {'=>'} Login, Saving, Sorting, etc.
           </h2>
