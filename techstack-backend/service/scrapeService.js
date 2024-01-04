@@ -4,6 +4,7 @@ const scrapeNewegg = require("./scrapeNewegg");
 const GetRetailers = require("../models/Retailers");
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+require("dotenv").config();
 puppeteer.use(StealthPlugin());
 
 async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
