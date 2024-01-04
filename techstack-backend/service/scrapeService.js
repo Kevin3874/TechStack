@@ -11,7 +11,6 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
   const page = await browser.newPage();
   await page.setRequestInterception(true);
   page.on('request', (req) => {
-    console.log("Request intercepted")
     if (['image', 'stylesheet', 'font'].includes(req.resourceType())) {
       req.abort();
     } else {
@@ -34,7 +33,7 @@ async function scrapeGPU(query) {
   const queryWords = query.split(' ');
   let retailers = GetRetailers(queryWords);
   const browser = await puppeteer.launch({
-    //headless: "new",
+    headless: "new",
     // args: [
     //   "--enable-gpu",
     //   "--disable-setuid-sandbox",
