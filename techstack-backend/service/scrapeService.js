@@ -10,6 +10,7 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
   const page = await browser.newPage();
   await page.setRequestInterception(true);
   page.on('request', (req) => {
+    console.log("Request intercepted")
     if (['image', 'stylesheet', 'font'].includes(req.resourceType())) {
       req.abort();
     } else {
@@ -17,8 +18,8 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
     }
   });
 
-  const userAgent = `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/${Math.random().toFixed(3)} (KHTML, like Gecko) Chrome/${Math.floor(Math.random() * 10) + 80}.0.${Math.floor(Math.random() * 1000)}.0 Safari/${Math.random().toFixed(3)}`;
-  await page.setUserAgent(userAgent);
+  // const userAgent = `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/${Math.random().toFixed(3)} (KHTML, like Gecko) Chrome/${Math.floor(Math.random() * 10) + 80}.0.${Math.floor(Math.random() * 1000)}.0 Safari/${Math.random().toFixed(3)}`;
+  // await page.setUserAgent(userAgent);
 
   page.setDefaultNavigationTimeout(2 * 60 * 1000);
   await page.goto(url, { waitUntil: 'networkidle2' });
@@ -34,16 +35,15 @@ async function scrapeGPU(query) {
   const browser = await puppeteer.launch({
     headless: "new",
     args: [
+      "--enable-gpu",
       "--disable-setuid-sandbox",
       "--no-sandbox",
       "--single-process",
-      "--no-zygote",
+      "--no-zygote",  
       "--disable-dev-shm-usage",
     ],
-    executablePath:
-      process.env.NODE_ENV === "production"
-        ? process.env.PUPPETEER_EXECUTABLE_PATH
-        : puppeteer.executablePath(),
+      executablePath: "google-chrome-stable",
+    ignoreDefaultArgs: ['--disable-extensions'],
   });
   try {
     const [amazonData, bestbuyData, neweggData] = await Promise.all([

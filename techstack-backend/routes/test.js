@@ -4,7 +4,7 @@ const puppeteer = require("puppeteer");
 require("dotenv").config();
 
 
-router.get("/test", (req, res) => {
+router.get("/", (req, res) => {
   const scrapeLogic = async (res) => {
     const browser = await puppeteer.launch({
       args: [
