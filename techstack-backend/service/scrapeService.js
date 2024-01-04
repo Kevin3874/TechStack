@@ -12,7 +12,13 @@ puppeteer.use(StealthPlugin());
 
 async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
   const page = await browser.newPage();
-  console.log(`Intercepting requests for ${url}`)
+  const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36";
+  await page.setUserAgent(userAgent);
+  console.log(`Intercepting requests for ${url} with user agent ${userAgent}`);
+  await page.setExtraHTTPHeaders({
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Accept-Encoding': 'gzip, deflate, br',
+  });
   await page.setRequestInterception(true);
   page.on('request', (req) => {
     if (['image', 'stylesheet', 'font'].includes(req.resourceType())) {
