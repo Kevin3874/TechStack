@@ -40,6 +40,7 @@ async function scrapeGPU(query) {
       "--no-sandbox",
       "--single-process",
       "--no-zygote",
+      "--disable-http2"
     ],
     executablePath:
         process.env.NODE_ENV === "production"
