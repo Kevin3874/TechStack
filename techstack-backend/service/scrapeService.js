@@ -35,7 +35,7 @@ async function scrapeGPU(query) {
   const browser = await puppeteer.launch({
     //headless: "new",
     args: [
-      "--enable-gpu",
+      //"--enable-gpu",
       "--disable-setuid-sandbox",
       "--no-sandbox",
       "--single-process",
@@ -52,7 +52,6 @@ async function scrapeGPU(query) {
         process.env.NODE_ENV === "production"
           ? process.env.PUPPETEER_EXECUTABLE_PATH
           : puppeteer.executablePath(),
-    ignoreDefaultArgs: ['--disable-extensions'],
   });
   try {
     const [amazonData, bestbuyData, neweggData] = await Promise.all([
