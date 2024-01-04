@@ -21,9 +21,11 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
   // const userAgent = `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/${Math.random().toFixed(3)} (KHTML, like Gecko) Chrome/${Math.floor(Math.random() * 10) + 80}.0.${Math.floor(Math.random() * 1000)}.0 Safari/${Math.random().toFixed(3)}`;
   // await page.setUserAgent(userAgent);
 
-  page.setDefaultNavigationTimeout(2 * 60 * 1000);
+  //page.setDefaultNavigationTimeout(2 * 60 * 1000);
   await page.goto(url, { waitUntil: 'networkidle2' });
+  console.log(`Scraping ${url}`);
   const data = await scrapeFunction(page);
+  console.log(`Finished scraping ${url}`)
   await page.close();
   return data;
 }
@@ -33,21 +35,12 @@ async function scrapeGPU(query) {
   const queryWords = query.split(' ');
   let retailers = GetRetailers(queryWords);
   const browser = await puppeteer.launch({
-    //headless: "new",
     args: [
-      //"--enable-gpu",
       "--disable-setuid-sandbox",
       "--no-sandbox",
       "--single-process",
-      "--no-zygote",  
-      "--disable-dev-shm-usage",
+      "--no-zygote",
     ],
-    // args: [
-    //   "--disable-setuid-sandbox",
-    //   "--no-sandbox",
-    //   "--single-process",
-    //   "--no-zygote",
-    // ],
     executablePath:
         process.env.NODE_ENV === "production"
           ? process.env.PUPPETEER_EXECUTABLE_PATH
