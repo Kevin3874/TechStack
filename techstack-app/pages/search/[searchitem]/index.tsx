@@ -31,6 +31,14 @@ export default function SearchResults() {
         .catch((error) => {
           console.error("Error fetching data: ", error);
           setIsLoading(false);
+          return (
+            <>
+              <h1>Something went wrong!</h1>
+              <p>
+                Please try again later or check the repository for more
+              </p>
+            </>
+          );
         });
     }
   }, [searchitem]);
