@@ -11,18 +11,7 @@ export default function SearchResults() {
   useEffect(() => {
     if (searchitem) {
       const query = (searchitem as string).split(" ").join("+");
-      // fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/scrape?q=${query}`)
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     setResults(data);
-      //     setIsLoading(false);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error fetching data: ", error);
-      //     setIsLoading(false);
-      //   });
-      // TODO: fix and change to permanent server
-      fetch(`http://localhost:4000/api/scrape?q=${query}`)
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/scrape?q=${query}`)
         .then((response) => response.json())
         .then((data) => {
           setResults(data);
@@ -40,6 +29,25 @@ export default function SearchResults() {
             </>
           );
         });
+      // TODO: fix and change to permanent server
+      // fetch(`http://localhost:4000/api/scrape?q=${query}`)
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     setResults(data);
+      //     setIsLoading(false);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error fetching data: ", error);
+      //     setIsLoading(false);
+      //     return (
+      //       <>
+      //         <h1>Something went wrong!</h1>
+      //         <p>
+      //           Please try again later or check the repository for more
+      //         </p>
+      //       </>
+      //     );
+      //   });
     }
   }, [searchitem]);
 
@@ -61,7 +69,7 @@ export default function SearchResults() {
   };
 
   return (
-    <div>
+    <>
       <h1>Search Results for: {searchitem}</h1>
       <div className={styles.resultsContainer}>
         {isLoading ? (
@@ -76,6 +84,7 @@ export default function SearchResults() {
           })
         )}
       </div>
-    </div>
+    </>
+    
   );
 }
