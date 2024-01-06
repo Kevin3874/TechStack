@@ -11,7 +11,18 @@ export default function SearchResults() {
   useEffect(() => {
     if (searchitem) {
       const query = (searchitem as string).split(" ").join("+");
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/scrape?q=${query}`)
+      // fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/scrape?q=${query}`)
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     setResults(data);
+      //     setIsLoading(false);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error fetching data: ", error);
+      //     setIsLoading(false);
+      //   });
+      // TODO: fix and change to permanent server
+      fetch(`http://localhost:4000/api/scrape?q=${query}`)
         .then((response) => response.json())
         .then((data) => {
           setResults(data);

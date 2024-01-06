@@ -17,10 +17,8 @@ const scrapeBestBuy = async (page) => {
     // const page = await browser.newPage();
     // page.setDefaultNavigationTimeout(2 * 60 * 1000);
     // await page.goto(URL, {waitUntil: 'networkidle2'});
-
     const products = await page.evaluate(() => {
       const uniqueProducts = new Map();
-
       const productContainers = document.querySelectorAll('ol.sku-item-list > li.sku-item');
       productContainers.forEach(container => {
         const productLinkEl = container.querySelector('h4.sku-title > a');
