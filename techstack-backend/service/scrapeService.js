@@ -40,7 +40,6 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
   console.log(`Scraping ${url}`);
   const data = await scrapeFunction(page);
   console.log(`Finished scraping ${url}`)
-  await page.close();
   return data;
 }
 
@@ -94,7 +93,7 @@ function delay(time) {
 }
 
 function randomDelay() {
-  return 500 + Math.random() * 1000; // Random delay between 0.5 to 2.5 seconds
+  return 500 + Math.random() * 1000; // Random delay between 0.5 to 1.5 seconds
 }
 
 
