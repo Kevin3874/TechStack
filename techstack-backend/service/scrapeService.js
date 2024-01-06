@@ -40,6 +40,7 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
   console.log(`Scraping ${url}`);
   const data = await scrapeFunction(page);
   console.log(`Finished scraping ${url}`)
+  await page.close();
   return data;
 }
 
@@ -50,6 +51,7 @@ async function scrapeGPU(query) {
 
   try {
     browser = await puppeteer.launch({
+      headless: "new",
       args: [
         '--disable-setuid-sandbox',
         '--no-sandbox',
@@ -62,7 +64,6 @@ async function scrapeGPU(query) {
           process.env.NODE_ENV === "production"
             ? process.env.PUPPETEER_EXECUTABLE_PATH
             : puppeteer.executablePath(),
-      headless: true,
       ignoreDefaultArgs: ["--enable-automation"],
     });
 
