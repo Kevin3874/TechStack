@@ -2,9 +2,6 @@ const cheerio = require('cheerio');
 
 const scrapeNewegg = async (page) => {
   try {
-    
-    await page.waitForSelector('.list-wrap', { timeout: 5000 }); // Adjust the timeout as needed
-
     // Fetch the raw HTML of the page
     const rawHTML = await page.content();
     const $ = cheerio.load(rawHTML);
