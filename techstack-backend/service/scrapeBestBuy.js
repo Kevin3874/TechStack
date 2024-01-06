@@ -1,22 +1,5 @@
-//const puppeteer = require('puppeteer-core')
-// const puppeteer = require('puppeteer-extra');
-// const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-// require('dotenv').config({ path: './.env.local' });
-
-// puppeteer.use(StealthPlugin());
-
 const scrapeBestBuy = async (page) => {
-  //let browser;
   try {
-    // browser = await puppeteer.connect({
-    //   browserWSEndpoint: process.env.AUTH_ENDPOINT
-    // });
-
-    // browser = await puppeteer.launch({ headless: "new" });
-
-    // const page = await browser.newPage();
-    // page.setDefaultNavigationTimeout(2 * 60 * 1000);
-    // await page.goto(URL, {waitUntil: 'networkidle2'});
     const products = await page.evaluate(() => {
       const uniqueProducts = new Map();
       const productContainers = document.querySelectorAll('ol.sku-item-list > li.sku-item');
