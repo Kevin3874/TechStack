@@ -12,17 +12,24 @@ puppeteer.use(StealthPlugin());
 
 async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
   const page = await browser.newPage();
-  const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36";
+  await page.setViewport({ width: 1280, height: 800 });
+  const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36";
   await page.setUserAgent(userAgent);
-  console.log(`Intercepting requests for ${url} with user agent ${userAgent}`);
+  page.setDefaultNavigationTimeout(2 * 60 * 1000);
   await page.setExtraHTTPHeaders({
     'Accept-Language': 'en-US,en;q=0.9',
     'Accept-Encoding': 'gzip, deflate, br',
     'Connection': 'keep-alive',
     'Accept*': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
   });
+  await page.goto(url, { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(randomDelay());
+
+  await page.mouse.move(Math.random() * 1280, Math.random() * 800)
+
+  //console.log(`Intercepting requests for ${url} with user agent ${userAgent}`);
   await page.setRequestInterception(true);
-  page.on('request', (req) => {
+  await page.on('request', (req) => {
     if (['image', 'stylesheet', 'font'].includes(req.resourceType())) {
       req.abort();
     } else {
@@ -30,8 +37,6 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
     }
   });
 
-  page.setDefaultNavigationTimeout(2 * 60 * 1000);
-  await page.goto(url, { waitUntil: 'networkidle2' });
   console.log(`Scraping ${url}`);
   const data = await scrapeFunction(page);
   console.log(`Finished scraping ${url}`)
@@ -39,50 +44,58 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
   return data;
 }
 
-
 async function scrapeGPU(query) {
   const queryWords = query.split(' ');
   let retailers = GetRetailers(queryWords);
   let browser;
+
   try {
-    // browser = await puppeteer.connect({
-    //   browserWSEndpoint: process.env.SBR_WS_ENDPOINT,
-    // });
     browser = await puppeteer.launch({
       args: [
-        "--disable-setuid-sandbox",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote"
+        '--disable-setuid-sandbox',
+        '--no-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--disable-gpu',
+        '--window-size=1920x1080',
       ],
       executablePath:
           process.env.NODE_ENV === "production"
             ? process.env.PUPPETEER_EXECUTABLE_PATH
             : puppeteer.executablePath(),
+      headless: true,
+      ignoreDefaultArgs: ["--enable-automation"],
     });
+
     const [amazonData, bestbuyData, neweggData] = await Promise.all([
       scrapeWithPuppeteer(browser, scrapeAmazon, retailers[0]),
       scrapeWithPuppeteer(browser, scrapeBestbuy, retailers[1]),
       scrapeWithPuppeteer(browser, scrapeNewegg, retailers[2])
-    ])
+    ]);
 
-    // Testing
-    // const [amazonData, bestbuyData, neweggData] = await Promise.all([
-    //   scrapeWithPuppeteer(browser, scrapeAmazon, "https://www.amazon.com/s?k=Graphics+Cards"),
-    //   scrapeWithPuppeteer(browser, scrapeBestbuy, "https://www.bestbuy.com/site/searchpage.jsp?st=Graphics+Cards"),
-    //   scrapeWithPuppeteer(browser, scrapeNewegg, "https://www.newegg.com/p/pl?d=graphics+card")
-    // ])
     return { 
       Amazon: amazonData, 
       BestBuy: bestbuyData, 
       Newegg: neweggData 
-    } 
-    
+    };
+
   } catch (error) {
     console.error("Scraping failed:", error);
   } finally {
-    await browser.close();
+    if (browser) {
+      await browser.close();
+    }
   }
 }
+
+// Helper function to introduce delay
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+
+function randomDelay() {
+  return 500 + Math.random() * 1000; // Random delay between 0.5 to 2.5 seconds
+}
+
 
 module.exports = scrapeGPU;
