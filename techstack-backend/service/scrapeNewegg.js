@@ -2,8 +2,6 @@ const cheerio = require('cheerio');
 
 const scrapeNewegg = async (page) => {
   try {
-    
-    // Try this
     await page.waitForTimeout(1000);
 
     // Fetch the raw HTML of the page

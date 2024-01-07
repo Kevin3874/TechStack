@@ -1,5 +1,7 @@
 const scrapeBestBuy = async (page) => {
   try {
+    await page.waitForTimeout(1000);
+    
     const products = await page.evaluate(() => {
       const uniqueProducts = new Map();
       const productContainers = document.querySelectorAll('ol.sku-item-list > li.sku-item');

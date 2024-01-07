@@ -1,5 +1,7 @@
 const scrapeAmazon = async (page) => {
   try {
+    await page.waitForTimeout(1000);
+    
     const products = await page.evaluate(() => {
       const uniqueProducts = new Map();
       const productContainers = document.querySelectorAll('div[data-asin]');
