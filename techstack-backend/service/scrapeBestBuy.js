@@ -1,56 +1,45 @@
+const axios = require('axios');
 const cheerio = require('cheerio');
 
-const scrapeBestBuy = async (page) => {
+const scrapeBestBuy = async (url) => {
   try {
-    await page.waitForTimeout(1000);
-    
-    const products = await page.evaluate(() => {
-      const uniqueProducts = new Map();
-      const productContainers = document.querySelectorAll('ol.sku-item-list > li.sku-item');
-      productContainers.forEach(container => {
-        const productLinkEl = container.querySelector('h4.sku-title > a');
-        const productLink = 'https://www.bestbuy.com' + productLinkEl?.getAttribute('href');
-        
-        // Check for unique product link
-        if (!productLink || uniqueProducts.has(productLink)) {
-          return;
-        }
-
-        const productName = productLinkEl?.innerText.trim();
-        // Selectors
-        const productPriceEl = container.querySelector('.sku-list-item-price .priceView-customer-price span');
-        const productImageEl = container.querySelector('.image-link img.product-image');
-
-        // Extract Data
-        const productPrice = productPriceEl ? productPriceEl.innerText.trim() : null;
-        const productImage = productImageEl ? productImageEl.src : null;
-
-        if (productName && productPrice && productLink) {
-          uniqueProducts.set(productLink, { 
-            productName, 
-            productPrice, 
-            productLink, 
-            productImage 
-          });
-        }
-      });
-
-      // Convert Map to Array
-      let data = Array.from(uniqueProducts.values());
-      // Check for empty array, return []
-      if (data.length === 1) {
-        data.push("empty");
+    const { data: html } = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36'
       }
-      return data;
+    });
+    const $ = cheerio.load(html);
+    const uniqueProducts = new Map();
+
+    $('ol.sku-item-list > li.sku-item').each((i, el) => {
+      const productLinkEl = $(el).find('h4.sku-title > a');
+      const productLink = 'https://www.bestbuy.com' + productLinkEl.attr('href');
+
+      if (!productLink || uniqueProducts.has(productLink)) return;
+
+      const productName = productLinkEl.text().trim();
+      const productPriceEl = $(el).find('.sku-list-item-price .priceView-customer-price span');
+      const productImageEl = $(el).find('.image-link img.product-image');
+
+      const productPrice = productPriceEl.text().trim();
+      const productImage = productImageEl.attr('src');
+
+      if (productName && productPrice && productLink) {
+        uniqueProducts.set(productLink, {
+          productName,
+          productPrice,
+          productLink,
+          productImage
+        });
+      }
     });
 
-    //console.log(products);
-    //console.log("Size:", products.length);
-    return products;
-    
+    let data = Array.from(uniqueProducts.values());
+    return data;
+
   } catch (e) {
     console.log('Scraping BestBuy failed: ', e);
-    throw('Scraping BestBuy failed');
+    throw ('Scraping BestBuy failed');
   }
 };
 

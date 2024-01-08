@@ -1,13 +1,14 @@
 const cheerio = require('cheerio');
+const axios = require('axios');
 
-const scrapeAmazon = async (page) => {
+const scrapeAmazon = async (url) => {
   try {
-    await page.waitForTimeout(1000);
-
-    // Get the HTML content of the page
-    const pageContent = await page.content();
-    //console.log("Page Content:", pageContent); // Log the raw HTML content
-    const $ = cheerio.load(pageContent);
+    const { data: html } = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36'
+      }
+    });
+    const $ = cheerio.load(html);
     const uniqueProducts = new Map();
 
     $('div[data-asin]').each((i, el) => {
@@ -20,7 +21,7 @@ const scrapeAmazon = async (page) => {
       const productImage = $(el).find('.s-image').attr('src');
 
       if (productName && productPrice && productLink) {
-        uniqueProducts.set(productLink,{
+        uniqueProducts.set(productLink, {
           productName,
           productPrice,
           productLink,
@@ -29,13 +30,8 @@ const scrapeAmazon = async (page) => {
       }
     });
 
-     // Convert data to array
-     let data = Array.from(uniqueProducts.values());
-     // Check for empty array, return []
-     if (data.length === 1) {
-       data.push("empty");
-     }
-     return data;
+    let data = Array.from(uniqueProducts.values());
+    return data;
 
   } catch (e) {
     console.log('Scraping Amazon failed: ', e);

@@ -40,17 +40,16 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
   return data;
 }
 
-async function scrapeGPU(query) {
+async function scrape(query) {
   
   const queryWords = query.split(' ');
   let retailers = GetRetailers(queryWords);
-  let browser = await initBrowser();
 
   try {
     const [amazonData, bestbuyData, neweggData] = await Promise.all([
-      scrapeWithPuppeteer(browser, scrapeAmazon, retailers[0]),
-      scrapeWithPuppeteer(browser, scrapeBestBuy, retailers[1]),
-      scrapeWithPuppeteer(browser, scrapeNewegg, retailers[2])
+      scrapeAmazon(retailers[0]),
+      scrapeBestBuy(retailers[1]),
+      scrapeNewegg(retailers[2])
     ]);
 
     return { 
@@ -61,21 +60,9 @@ async function scrapeGPU(query) {
 
   } catch (error) {
     console.error("Scraping failed:", error);
-  } finally {
-    if (browser) {
-      await browser.close();
-    }
   }
 }
 
-// Helper function to introduce delay
-function delay(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
-}
-
-function randomDelay() {
-  return 500 + Math.random() * 1000; // Random delay between 0.5 to 1.5 seconds
-}
 
 
-module.exports = scrapeGPU;
+module.exports = scrape;

@@ -1,12 +1,14 @@
 const cheerio = require('cheerio');
+const axios = require('axios');
 
-const scrapeNewegg = async (page) => {
+const scrapeNewegg = async (url) => {
   try {
-    await page.waitForTimeout(1000);
-
-    // Fetch the raw HTML of the page
-    const rawHTML = await page.content();
-    const $ = cheerio.load(rawHTML);
+    const { data: html } = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36'
+      }
+    });
+    const $ = cheerio.load(html);
     const uniqueProducts = new Map();
 
     $('.list-wrap .item-cells-wrap.border-cells.items-grid-view .item-cell').each((index, element) => {
@@ -34,10 +36,6 @@ const scrapeNewegg = async (page) => {
 
     // Convert data to array
     let data = Array.from(uniqueProducts.values());
-    // Check for empty array, return []
-    if (data.length === 1) {
-      data.push("empty");
-    }
     return data;
     
   } catch (e) {
