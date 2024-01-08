@@ -1,15 +1,11 @@
-//require('dotenv').config({ path: './.env.local' });
-require('dotenv').config();
-
 const scrapeAmazon = require("./scrapeAmazon");
-const scrapeBestbuy = require("./scrapeBestBuy");
+const scrapeBestBuy = require("./scrapeBestBuy");
 const scrapeNewegg = require("./scrapeNewegg");
 const GetRetailers = require("../models/Retailers");
-//const puppeteer = require("puppeteer-core");
-const puppeteer = require('puppeteer-extra');
-const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-puppeteer.use(StealthPlugin());
+const initBrowser = require("./initBrowserService");
+require('dotenv').config();
 
+let proxyUrl;
 async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 800 });
@@ -45,31 +41,15 @@ async function scrapeWithPuppeteer(browser, scrapeFunction, url) {
 }
 
 async function scrapeGPU(query) {
+  
   const queryWords = query.split(' ');
   let retailers = GetRetailers(queryWords);
-  let browser;
+  let browser = await initBrowser();
 
   try {
-    browser = await puppeteer.launch({
-      headless: "new",
-      args: [
-        '--disable-setuid-sandbox',
-        '--no-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--disable-gpu',
-        '--window-size=1920x1080',
-      ],
-      executablePath:
-          process.env.NODE_ENV === "production"
-            ? process.env.PUPPETEER_EXECUTABLE_PATH
-            : puppeteer.executablePath(),
-      ignoreDefaultArgs: ["--enable-automation"],
-    });
-
     const [amazonData, bestbuyData, neweggData] = await Promise.all([
       scrapeWithPuppeteer(browser, scrapeAmazon, retailers[0]),
-      scrapeWithPuppeteer(browser, scrapeBestbuy, retailers[1]),
+      scrapeWithPuppeteer(browser, scrapeBestBuy, retailers[1]),
       scrapeWithPuppeteer(browser, scrapeNewegg, retailers[2])
     ]);
 

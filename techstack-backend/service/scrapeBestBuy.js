@@ -1,3 +1,5 @@
+const cheerio = require('cheerio');
+
 const scrapeBestBuy = async (page) => {
   try {
     await page.waitForTimeout(1000);
@@ -35,7 +37,6 @@ const scrapeBestBuy = async (page) => {
 
       // Convert Map to Array
       let data = Array.from(uniqueProducts.values());
-      data.push("BestBuy");
       // Check for empty array, return []
       if (data.length === 1) {
         data.push("empty");

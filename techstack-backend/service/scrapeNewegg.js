@@ -34,7 +34,6 @@ const scrapeNewegg = async (page) => {
 
     // Convert data to array
     let data = Array.from(uniqueProducts.values());
-    data.push("Newegg");
     // Check for empty array, return []
     if (data.length === 1) {
       data.push("empty");
