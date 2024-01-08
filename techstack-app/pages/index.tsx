@@ -28,16 +28,16 @@ export default function Home() {
             Compare and buy the latest tech products from the top brands. Save
             money and time with TechStack.
           </h2>
-          <h2 className={styles.description}>
-            Try searching an item! Ex: {'"RTX 4070 Laptop"'} <br></br>
-            Currently supports: BestBuy, Amazon, Newegg. <br></br>
-            Much more coming soon {'=>'} Login, Saving, Sorting, etc.
-          </h2>
           <br></br>
           <Link href='https://github.com/Kevin3874/TechStack'>
               <h2>GitHub &rarr;</h2>
-              <h2>Check out the source code for this project!</h2>
+              <h2>To run it, check out the source code for this project!</h2>
           </Link>
+          <h2 className={styles.description}>
+            Then, try searching an item! Ex: {'"RTX 4070 Laptop"'} <br></br>
+            Currently supports: BestBuy, Amazon, Newegg. <br></br>
+            Much more coming soon {'=>'} Login, Saving, Sorting, Permanent Server, etc.
+          </h2>
         </div>
       </main>
     </>
