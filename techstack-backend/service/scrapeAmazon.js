@@ -1,10 +1,15 @@
 const cheerio = require('cheerio');
+const axios = require('axios');
+require('dotenv').config();
 
-const scrapeAmazon = async (page) => {
+const scrapeAmazon = async (url) => {
+  console.log("Scraping", url)
   try {
-    await page.waitForTimeout(1000);
+    // Replace with your ScraperAPI key
+    const scraperApiUrl = `http://api.scraperapi.com/?api_key=${process.env.SCRAPER_API_KEY}&url=${encodeURIComponent(url)}`;
 
-    const rawHTML = await page.content();
+    const response = await axios.get(scraperApiUrl);
+    const rawHTML = response.data;
     const $ = cheerio.load(rawHTML);
     const uniqueProducts = new Map();
 
@@ -26,6 +31,8 @@ const scrapeAmazon = async (page) => {
         });
       }
     });
+
+    console.log("Finished scraping", url);
 
     let data = Array.from(uniqueProducts.values());
     return data;

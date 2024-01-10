@@ -49,7 +49,7 @@ async function scrape(query) {
 
   try {
     const [amazonData, bestbuyData, neweggData] = await Promise.all([
-      scrapeWithPuppeteer(browser, scrapeAmazon, retailers[0]),
+      scrapeAmazon(retailers[0]),
       scrapeWithPuppeteer(browser, scrapeBestBuy, retailers[1]),
       scrapeWithPuppeteer(browser, scrapeNewegg, retailers[2]),
     ]);
