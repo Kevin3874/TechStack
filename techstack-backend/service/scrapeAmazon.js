@@ -1,6 +1,8 @@
 const cheerio = require('cheerio');
 const axios = require('axios');
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
+dotenv.config({ path: './.env.local' });
 
 const scrapeAmazon = async (url) => {
   console.log("Scraping", url)

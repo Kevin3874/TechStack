@@ -7,11 +7,13 @@ function GetRetailers(queryWords) {
   let amazonURL = "https://www.amazon.com/s?k=" + queryURL;
   let bestbuyURL = "https://www.bestbuy.com/site/searchpage.jsp?st=" + queryURL;
   let neweggURL = "https://www.newegg.com/p/pl?d=" + queryURL;
+  let targetURL = "https://www.target.com/s?searchTerm=" + queryURL;
 
   return [
     amazonURL,
     bestbuyURL,
-    neweggURL
+    neweggURL,
+    targetURL
   ];
 }
 
