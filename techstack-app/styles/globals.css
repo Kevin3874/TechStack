@@ -324,3 +324,52 @@ input[type="file"] {
 .search-button:hover {
   background-color: #0056b3;
 }
+
+@media only screen and (max-width: 768px) {
+  .navbar {
+    padding: 0; 
+    height: auto;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+  }
+
+  .navbar-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; 
+  }
+
+  .navbar-logo {
+    flex: 1; 
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .navbar-user {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end; 
+  }
+
+  .navbar-search {
+    order: 2; 
+    width: 100%; 
+    padding: 0 20px;
+  }
+
+  .search-input {
+    flex-grow: 1; 
+    margin-right: 10px;
+  }
+
+  .navbar img {
+    max-height: 40px; 
+    width: auto; 
+  }
+
+  .navbar-hide-on-mobile {
+    display: none;
+  }
+}
