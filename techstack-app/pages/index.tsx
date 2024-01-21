@@ -29,16 +29,14 @@ export default function Home() {
             money and time with TechStack.
           </h2>
           <br></br>
+          <Link href='https://github.com/Kevin3874/TechStack'>
+              <h2>GitHub &rarr;</h2>
+              <h2>Check out the source code for this project + instructions on how to run!</h2>
+          </Link>
           <h2 className={styles.description}>
             Try searching an item! Ex: {'"RTX 4070 Laptop"'} <br></br>
             Currently supports: BestBuy, Amazon, Newegg. <br></br>
-            Much more coming soon {'=>'} Login, Saving, Sorting, etc.
           </h2>
-          <Link href='https://github.com/Kevin3874/TechStack'>
-              <h2>GitHub &rarr;</h2>
-              <h2>Check out the source code for this project!</h2>
-          </Link>
-          
         </div>
       </main>
     </>
