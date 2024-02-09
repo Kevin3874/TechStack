@@ -12,6 +12,7 @@ export default function Home() {
   return (
     <>
       <Head>
+        <title>** Server is not up as it costs money, check github below on how to run **</title>
         <title>TechStack - Save time. Save money.</title>
         <meta
           name="description"
