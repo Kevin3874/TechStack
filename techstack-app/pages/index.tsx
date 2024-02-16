@@ -25,6 +25,7 @@ export default function Home() {
       <main>
         <div className={styles.container}>
           <h1 className={styles.title}>TechStack</h1>
+          <h1>** Server is not up as it costs money, check github below on how to run **</h1>
           <h2 className={styles.description}>
             Compare and buy the latest tech products from the top brands. Save
             money and time with TechStack.
